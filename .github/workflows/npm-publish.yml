@@ -9,23 +9,23 @@ jobs:
   test:
     uses: ./.github/workflows/test.yml
 
-  publish-npm:
+  publish-github:
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
+          registry-url: https://npm.pkg.github.com/
       - uses: pnpm/action-setup@v3
         with:
           run_install: true
-
       - name: Install dependencies
         run: pnpm install
-
       - run: |
           cd packages/msw-trpc
           pnpm build

@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "description": "This is a temporary fork of tRPC API for Mock Service Worker (MSW) to support v11",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "@jasonsilvers-dispel:registry": "https://npm.pkg.github.com"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
