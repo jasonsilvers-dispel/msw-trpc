@@ -26,8 +26,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run tests
-        run: pnpm test
+      - name: Run react tests
+        run: |
+          cd packages/test-react
+          pnpm install
+          pnpm test
 
       - run: |
           cd packages/my-package
