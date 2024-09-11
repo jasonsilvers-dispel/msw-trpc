@@ -1,18 +1,16 @@
-import createTRPCMsw from '../src/createTRPCMsw'
 import { initTRPC } from '@trpc/server'
-import { createTRPCClient, httpLink } from '@trpc/client'
 import superjson from 'superjson'
+import { observable } from '@trpc/server/observable'
 
 const t = initTRPC.create()
 
-const tWithSuperJson = initTRPC.create({
-  transformer: superjson,
-})
+const tWithSuperJson = initTRPC.create({ transformer: superjson })
 
 export interface User {
   id: string
   name: string
 }
+
 const userList: User[] = [
   {
     id: '1',
@@ -27,10 +25,10 @@ const appRouter = t.router({
 
       throw new Error(`Invalid input: ${typeof val}`)
     })
-    .query(req => {
+    .query((req) => {
       const { input } = req
 
-      const user = userList.find(u => u.id === input)
+      const user = userList.find((u) => u.id === input)
 
       return user
     }),
@@ -40,10 +38,10 @@ const appRouter = t.router({
 
       throw new Error(`Invalid input: ${typeof val}`)
     })
-    .query(req => {
+    .query((req) => {
       const { input } = req
 
-      const user = userList.find(u => u.id === input)
+      const user = userList.find((u) => u.id === input)
 
       return { ...user, posts: ['1'] }
     }),
@@ -65,10 +63,10 @@ const appRouter = t.router({
       }
       return val as User
     })
-    .query(req => {
+    .query((req) => {
       const { input } = req
 
-      const user = userList.find(u => u.name === input)
+      const user = userList.find((u) => u.name === input)
 
       return user
     }),
@@ -78,7 +76,7 @@ const appRouter = t.router({
 
       throw new Error(`Invalid input: ${typeof val}`)
     })
-    .mutation(req => {
+    .mutation((req) => {
       const { input } = req
 
       return {
@@ -108,48 +106,59 @@ const appRouter = t.router({
       }
       return val as User
     })
-    .mutation(req => {
+    .mutation((req) => {
       const { input } = req
 
       return input
     }),
   noReturn: t.procedure.mutation(() => {}),
+  getUserUpdates: t.procedure
+    .input((val: unknown) => {
+      if (typeof val === 'string') return val
+
+      throw new Error(`Invalid input: ${typeof val}`)
+    })
+    .subscription(() => {
+      return observable<User>((emit) => {
+        emit.next({ id: '1', name: 'KATT' })
+      })
+    }),
 })
 
 const appRouterWithSuperJson = tWithSuperJson.router({
-  userById: t.procedure
+  userById: tWithSuperJson.procedure
     .input((val: unknown) => {
       if (typeof val === 'string') return val
 
       throw new Error(`Invalid input: ${typeof val}`)
     })
-    .query(req => {
+    .query((req) => {
       const { input } = req
 
-      const user = userList.find(u => u.id === input)
+      const user = userList.find((u) => u.id === input)
 
       return user
     }),
-  userByIdAndPost: t.procedure
+  userByIdAndPost: tWithSuperJson.procedure
     .input((val: unknown) => {
       if (typeof val === 'string') return val
 
       throw new Error(`Invalid input: ${typeof val}`)
     })
-    .query(req => {
+    .query((req) => {
       const { input } = req
 
-      const user = userList.find(u => u.id === input)
+      const user = userList.find((u) => u.id === input)
 
       return { ...user, posts: ['1'] }
     }),
-  createUser: t.procedure
+  createUser: tWithSuperJson.procedure
     .input((val: unknown) => {
       if (typeof val === 'string') return val
 
       throw new Error(`Invalid input: ${typeof val}`)
     })
-    .mutation(req => {
+    .mutation((req) => {
       const { input } = req
 
       return {
@@ -157,74 +166,34 @@ const appRouterWithSuperJson = tWithSuperJson.router({
         name: input,
       } as User
     }),
-  listUsers: t.procedure
+  listUsers: tWithSuperJson.procedure
     .input((val: unknown) => {
       return val as { take: number; skip: number }
     })
-    .query(req => {
+    .query((req) => {
       const { input } = req
       return input
     }),
-  createFriend: t.procedure
+  createFriend: tWithSuperJson.procedure
     .input((val: unknown) => {
       return val as { name: string }
     })
-    .mutation(req => {
+    .mutation((req) => {
       const { input } = req
       return { id: 'new-user', name: input.name }
     }),
+  addDateToSet: tWithSuperJson.procedure
+    .input((val: unknown) => {
+      return val as Date
+    })
+    .mutation((req) => {
+      const { input } = req
+      return new Set([input])
+    }),
 })
+
+const nestedRouter = t.router({ deeply: { nested: appRouter } })
 
 export type AppRouter = typeof appRouter
 export type AppRouterWithSuperJson = typeof appRouterWithSuperJson
-
-const nestedRouter = t.router({ deeply: { nested: appRouter }})
-
 export type NestedAppRouter = typeof nestedRouter
-
-export const trpc = createTRPCClient<AppRouter>({
-  links: [
-    httpLink({
-      url: 'http://localhost:3000/trpc',
-      headers() {
-        return {
-          'content-type': 'application/json',
-        }
-      },
-    }),
-  ],
-})
-
-export const trpcWithSuperJson = createTRPCClient<AppRouterWithSuperJson>({
-  links: [
-    httpLink({
-      url: 'http://localhost:3000/trpc',
-      transformer: superjson,
-      headers() {
-        return {
-          'content-type': 'application/json',
-        }
-      },
-    }),
-  ],
-})
-
-export const nestedTrpc = createTRPCClient<NestedAppRouter>({
-  links: [
-    httpLink({
-      url: 'http://localhost:3000/trpc',
-      headers() {
-        return {
-          'content-type': 'application/json',
-        }
-      },
-    }),
-  ],
-})
-
-export const mswTrpc = createTRPCMsw<AppRouter>()
-export const nestedMswTrpc = createTRPCMsw<NestedAppRouter>()
-
-export const mswTrpcWithSuperJson = createTRPCMsw<AppRouterWithSuperJson>({
-  transformer: { input: superjson, output: superjson },
-})
