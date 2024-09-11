@@ -27,7 +27,7 @@ jobs:
         run: pnpm install
 
       - run: |
-          cd packages/my-package
+          cd packages/msw-trpc
           pnpm build
           pnpm publish
         env:
