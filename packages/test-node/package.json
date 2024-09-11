@@ -8,8 +8,8 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@trpc/client": "11.0.0-rc.403",
-    "@trpc/server": "11.0.0-rc.403",
+    "@trpc/client": "11.0.0-rc.502",
+    "@trpc/server": "11.0.0-rc.502",
     "msw": "2.3.0-ws.rc-6",
     "superjson": "2.2.1",
     "undici": "6.19.0"
