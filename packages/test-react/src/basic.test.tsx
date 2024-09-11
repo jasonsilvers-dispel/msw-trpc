@@ -1,22 +1,20 @@
-import { describe, test, expect, beforeAll, afterAll, afterEach } from 'vitest'
-import { createTRPCMsw, httpLink, wsLink, createWSClient, splitLink } from '../../msw-trpc/src'
-import { setupServer } from 'msw/node'
 import { render, screen, waitFor } from '@testing-library/react'
+import { setupServer } from 'msw/node'
+import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest'
+import { createTRPCMsw, createWSClient, httpLink, splitLink, wsLink } from '../../msw-trpc/src'
 import type { AppRouter } from './routers/basic.js'
-import type { AppRouteWithSuperJson } from './routers/superjson.js'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import {
   createTRPCReact,
-  httpLink as TRPChttpLink,
-  wsLink as TRPCwsLink,
-  splitLink as TRPCsplitLink,
   createWSClient as TRPCcreateWSClient,
+  httpLink as TRPChttpLink,
+  splitLink as TRPCsplitLink,
+  wsLink as TRPCwsLink,
 } from '@trpc/react-query'
 import { useState } from 'react'
-import SuperJSON from 'superjson'
 
-describe.only('basic', () => {
+describe('basic', () => {
   const server = setupServer()
 
   beforeAll(() => server.listen())
