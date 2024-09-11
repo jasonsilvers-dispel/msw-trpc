@@ -16,5 +16,7 @@ jobs:
           node-version: 20
 
       - uses: pnpm/action-setup@v3
+        with:
+          run_install: true
 
       - run: pnpm test
