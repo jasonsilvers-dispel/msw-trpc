@@ -25,10 +25,10 @@ jobs:
         with:
           run_install: true
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
       - run: |
           cd packages/msw-trpc
-          pnpm build
-          pnpm publish
+          npm build
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
