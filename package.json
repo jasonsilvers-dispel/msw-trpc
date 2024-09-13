@@ -1,21 +1,41 @@
 {
-  "private": true,
+  "name": "@jasonsilvers-dispel/msw-trpc",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasonsilvers-dispel/msw-trpc.git"
+  },
+  "version": "3.0.2",
+  "description": "This is a temporary fork of tRPC API for Mock Service Worker (MSW) to support v11",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
-  "engines": {
-    "node": ">=18"
-  },
+  "author": "Malo Guertin",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
-    "format": "prettier --write ."
+    "build": "rimraf dist && tsc --build",
+    "type-check": "tsc --noEmit"
   },
-  "devDependencies": {
-    "@types/react": "18.3.3",
-    "@types/react-dom": "18.3.0",
-    "@types/ws": "8.5.10",
-    "lint-staged": "15.2.7",
-    "prettier": "3.3.2",
-    "rimraf": "5.0.7",
-    "simple-git-hooks": "2.11.1",
-    "typescript": "5.4.5",
-    "vitest": "1.6.0"
+  "keywords": [
+    "msw",
+    "trpc",
+    "testing",
+    "api"
+  ],
+  "bugs": {
+    "url": "https://github.com/maloguertin/msw-trpc/issues"
+  },
+  "homepage": "https://github.com/maloguertin/msw-trpc#readme",
+  "dependencies": {
+    "@trpc/client": "^11.0.0-rc.502",
+    "msw": "^2.3.0-ws.rc-7",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.2"
+  },
+  "peerDependencies": {
+    "@trpc/server": "^11.0.0-rc.502"
   }
 }

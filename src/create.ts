@@ -2,13 +2,12 @@ import { AnyTRPCRouter } from '@trpc/server'
 
 import { MswTrpc, TRPCMswConfig } from './types.js'
 
-import { trpc } from './handler.js'
 import { HttpHandler } from 'msw'
+import { trpc } from './handler.js'
 
 const createTRPCMsw = <Router extends AnyTRPCRouter>(config: TRPCMswConfig) => {
   const { links, transformer } = config
 
-  // @ts-expect-error any
   const createUntypedTRPCMsw = (pathParts: string[] = []) => {
     return new Proxy(
       {},
