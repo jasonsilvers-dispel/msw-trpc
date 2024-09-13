@@ -29,7 +29,7 @@ describe('basic', () => {
     const client = trpc.createClient({
       links: [
         TRPChttpLink({
-          url: 'http://localhost:3000/trpc',
+          url: 'http://localhost:3001/trpc',
         }),
       ],
     })
@@ -47,7 +47,7 @@ describe('basic', () => {
     const mswTrpc = createTRPCMsw<AppRouter>({
       links: [
         httpLink({
-          url: 'http://localhost:3000/trpc',
+          url: 'http://localhost:3001/trpc',
           headers() {
             return {
               'content-type': 'application/json',
@@ -210,7 +210,7 @@ describe('basic', () => {
             }),
           }),
           false: TRPChttpLink({
-            url: `http://api.localhost:3000/trpc`,
+            url: `http://api.localhost:3001/trpc`,
             fetch: (url, options) => fetch(url, { ...options, credentials: 'include' }),
           }),
         }),
@@ -252,7 +252,7 @@ describe('basic', () => {
             }),
           }),
           false: httpLink({
-            url: 'http://api.localhost:3000/trpc',
+            url: 'http://api.localhost:3001/trpc',
           }),
         }),
       ],

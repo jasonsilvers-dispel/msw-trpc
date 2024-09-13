@@ -1,7 +1,7 @@
-import { describe, test, expect, beforeAll, afterAll, afterEach } from 'vitest'
-import { createTRPCMsw, httpLink } from '../../msw-trpc/src'
-import { setupServer } from 'msw/node'
 import { render, screen, waitFor } from '@testing-library/react'
+import { setupServer } from 'msw/node'
+import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest'
+import { createTRPCMsw, httpLink } from '../../msw-trpc/src'
 import type { AppRouteWithSuperJson } from './routers/superjson.js'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -23,7 +23,7 @@ describe('superjson', () => {
     const client = trpc.createClient({
       links: [
         TRPChttpLink({
-          url: 'http://localhost:3000/trpc',
+          url: 'http://localhost:3001/trpc',
           transformer: SuperJSON,
         }),
       ],
@@ -43,7 +43,7 @@ describe('superjson', () => {
       transformer: { input: SuperJSON, output: SuperJSON },
       links: [
         httpLink({
-          url: 'http://localhost:3000/trpc',
+          url: 'http://localhost:3001/trpc',
           headers() {
             return {
               'content-type': 'application/json',

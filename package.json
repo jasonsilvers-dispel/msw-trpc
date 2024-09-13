@@ -1,15 +1,11 @@
 {
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@9.3.0",
   "engines": {
-    "node": ">=20",
-    "pnpm": ">=9"
+    "node": ">=18"
   },
   "scripts": {
-    "format": "prettier --write .",
-    "type-check": "pnpm --filter \"./packages/**\" type-check",
-    "test": "pnpm --filter \"./packages/**\" test"
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@types/react": "18.3.3",
@@ -21,13 +17,5 @@
     "simple-git-hooks": "2.11.1",
     "typescript": "5.4.5",
     "vitest": "1.6.0"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
-  },
-  "lint-staged": {
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
-    ]
   }
 }
