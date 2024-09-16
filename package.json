@@ -4,10 +4,11 @@
     "type": "git",
     "url": "git+https://github.com/jasonsilvers-dispel/msw-trpc.git"
   },
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "This is a temporary fork of tRPC API for Mock Service Worker (MSW) to support v11",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": "./src",
   "type": "module",
   "author": "Malo Guertin",
   "license": "MIT",
@@ -31,7 +32,7 @@
   "homepage": "https://github.com/maloguertin/msw-trpc#readme",
   "dependencies": {
     "@trpc/client": "^11.0.0-rc.502",
-    "msw": "^2.3.0-ws.rc-7",
+    "msw": "^2.4.7",
     "rimraf": "^6.0.1",
     "typescript": "^5.6.2"
   },
