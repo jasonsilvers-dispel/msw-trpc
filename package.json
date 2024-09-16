@@ -4,7 +4,7 @@
     "type": "git",
     "url": "git+https://github.com/jasonsilvers-dispel/msw-trpc.git"
   },
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "This is a temporary fork of tRPC API for Mock Service Worker (MSW) to support v11",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,6 +36,7 @@
     "typescript": "^5.6.2"
   },
   "peerDependencies": {
-    "@trpc/server": "^11.0.0-rc.502"
+    "@trpc/server": "^11.0.0-rc.502",
+    "msw": "^2.4.7"
   }
 }
