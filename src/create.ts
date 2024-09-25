@@ -7,11 +7,12 @@ import { trpc } from './handler.js'
 export const createTRPCMsw = <Router extends AnyTRPCRouter>(config: TRPCMswConfig) => {
   const { links, transformer } = config
 
+  // @ts-ignore
   const createUntypedTRPCMsw = (pathParts: string[] = []) => {
     return new Proxy(
       {},
       {
-        get(target: unknown, lastKey) {
+        get(_target: unknown, lastKey) {
           const procedurePath = pathParts.join('.')
           if (lastKey === 'query' || lastKey === 'mutation') {
             return (handler: Function) => {
